@@ -31,7 +31,7 @@ const idProd6 = 6
 
 alert("¡Bienvenido a Margarita Regalos!")
 
-while (opcion != 7) {
+do {
     opcion = parseInt(prompt(`Elige los productos que quieras comprar
 
 Productos disponible:
@@ -75,4 +75,6 @@ Op. 7 - Finalizar`))
         default:
             alert("Opción incorrecta")
     }
-}
+} while (opcion != 7)
+
+
