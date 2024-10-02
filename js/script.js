@@ -1,15 +1,7 @@
-/**
- * Ecommerce de una tienda de regalos
- * Se venden productos del estilo decoración de hogar, productos de belleza, perfumes, manteles, souvenires, etc.
- * Instagram de la página: margarita.decoyeventos
- * La idea es que el cliente visualice cada producto en una card y los vaya agregando al carrito
- * Para la primera entrega, se realiza todo por consola
- */
-
 
 let opcion = 0
 let total = 0
-let carrito = ""
+let carrito = ''
 let itemProd1 = "Set Matero"
 let itemProd2 = "Mantel para mesa"
 let itemProd3 = "Perfume para el cuerpo"
@@ -25,17 +17,18 @@ let stockProd6 = 10
 
 function agregarProductos() {
 
-    do {
-        opcion = parseInt(prompt(`Elige los productos que quieras comprar
+    opcion = parseInt(prompt(`Elige los productos que quieras comprar
 
-Productos disponible:
-Op. 1 - Set Matero - $7600.99
-Op. 2 - Mantel para mesa - $3250
-Op. 3 - Perfume para el cuerpo - $4700.42
-Op. 4 - Jabones ecológicos - $5460.55
-Op. 5 - Souvenires personalizados x100 - $6000
-Op. 6 - Ramo para novia - $15000
-Op. 7 - Finalizar`))
+            Productos disponible:
+            Op. 1 - Set Matero - $7600.99
+            Op. 2 - Mantel para mesa - $3250
+            Op. 3 - Perfume para el cuerpo - $4700.42
+            Op. 4 - Jabones ecológicos - $5460.55
+            Op. 5 - Souvenires personalizados x100 - $6000
+            Op. 6 - Ramo para novia - $15000
+            Op. 7 - Finalizar`))
+
+    while (opcion != 7) {
 
         switch (opcion) {
             case 1:
@@ -43,8 +36,9 @@ Op. 7 - Finalizar`))
                     carrito += itemProd1 + "\n"
                     total += 7600.99
                     stockProd1 -= 1
+                    console.log(carrito)
                 } else {
-                    alert("No hay mas stock de ese producto, elige otro")
+                    console.log("No hay mas stock de ese producto, elige otro")
                 }
                 break
             case 2:
@@ -52,8 +46,9 @@ Op. 7 - Finalizar`))
                     carrito += itemProd2 + "\n"
                     total += 3250
                     stockProd2 -= 1
+                    console.log(carrito)
                 } else {
-                    alert("No hay mas stock de ese producto, elige otro")
+                    console.log("No hay mas stock de ese producto, elige otro")
                 }
                 break
             case 3:
@@ -61,8 +56,9 @@ Op. 7 - Finalizar`))
                     carrito += itemProd3 + "\n"
                     total += 4700.42
                     stockProd3 -= 1
+                    console.log(carrito)
                 } else {
-                    alert("No hay mas stock de ese producto, elige otro")
+                    console.log("No hay mas stock de ese producto, elige otro")
                 }
                 break
             case 4:
@@ -70,8 +66,9 @@ Op. 7 - Finalizar`))
                     carrito += itemProd4 + "\n"
                     total += 5460.55
                     stockProd4 -= 1
+                    console.log(carrito)
                 } else {
-                    alert("No hay mas stock de ese producto, elige otro")
+                    console.log("No hay mas stock de ese producto, elige otro")
                 }
                 break
             case 5:
@@ -79,8 +76,9 @@ Op. 7 - Finalizar`))
                     carrito += itemProd5 + "\n"
                     total += 6000
                     stockProd5 -= 1
+                    console.log(carrito)
                 } else {
-                    alert("No hay mas stock de ese producto, elige otro")
+                    console.log("No hay mas stock de ese producto, elige otro")
                 }
                 break
             case 6:
@@ -88,33 +86,47 @@ Op. 7 - Finalizar`))
                     carrito += itemProd6 + "\n"
                     total += 15000
                     stockProd6 -= 1
+                    console.log(carrito)
                 } else {
-                    alert("No hay mas stock de ese producto, elige otro")
+                    console.log("No hay mas stock de ese producto, elige otro")
                 }
                 break
             case 7:
                 break;
             default:
-                alert("Opción incorrecta")
+                console.log("Opción incorrecta")
         }
-    } while (opcion != 7)
-        console.log('Productos: \n'+carrito+'\nTotal: '+total)
+
+        opcion = parseInt(prompt(`Elige otro producto para agregar al carrito
+
+            Productos disponible:
+            Op. 1 - Set Matero - $7600.99
+            Op. 2 - Mantel para mesa - $3250
+            Op. 3 - Perfume para el cuerpo - $4700.42
+            Op. 4 - Jabones ecológicos - $5460.55
+            Op. 5 - Souvenires personalizados x100 - $6000
+            Op. 6 - Ramo para novia - $15000
+            Op. 7 - Finalizar`))
+
+    }
+    console.log('Productos: \n' + carrito + '\nTotal: ' + total)
     return [carrito, total]
 }
 
-function confirmCompra(prodElegidos, totalProd){
-    if(prodElegidos != ''){
+function confirmCompra(prodElegidos, totalProd) {
+    if (prodElegidos != '') {
         alert(`Productos elegidos
+
 `+prodElegidos+`
-Total: $`+parseFloat(totalProd).toFixed(2)+`
+Total: $`+ parseFloat(totalProd).toFixed(2) + `
 ¿Desea confirmar la compra?`)
     } else {
-        alert("No elegiste productos. Presione F5 para volver a comprar")
+        console.log("No elegiste productos. Presione F5 para volver a comprar")
     }
 }
 
-alert("¡Bienvenido a Margarita Regalos!")
+console.log("¡Bienvenido a Margarita Regalos!")
 let [prodElegidos, totalProd] = (agregarProductos())
 confirmCompra(prodElegidos, totalProd)
-alert('¡Gracias por elegirnos!')
+console.log('¡Gracias por elegirnos!')
 
