@@ -24,7 +24,7 @@ function agregarProductos() {
             Op. 2 - Mantel para mesa - $3250
             Op. 3 - Perfume para el cuerpo - $4700.42
             Op. 4 - Jabones ecológicos - $5460.55
-            Op. 5 - Souvenires personalizados x100 - $6000
+            Op. 5 - Souvenires personalizados x100 - $6100
             Op. 6 - Ramo para novia - $15000
             Op. 7 - Finalizar`))
 
@@ -74,7 +74,7 @@ function agregarProductos() {
             case 5:
                 if (stockProd5 > 0) {
                     carrito += itemProd5 + "\n"
-                    total += 6000
+                    total += 6100
                     stockProd5 -= 1
                     console.log(carrito)
                 } else {
