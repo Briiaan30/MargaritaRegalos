@@ -17,11 +17,11 @@ let itemProd4 = "Jabones ecológicos"
 let itemProd5 = "Souvenires personalizados x100"
 let itemProd6 = "Ramo para novia"
 let stockProd1 = 10
-let stockProd2 = 10
-let stockProd3 = 10
-let stockProd4 = 10
-let stockProd5 = 10
-let stockProd6 = 10
+let stockProd2 = 5
+let stockProd3 = 1
+let stockProd4 = 16
+let stockProd5 = 8
+let stockProd6 = 3
 
 function agregarProductos() {
 
