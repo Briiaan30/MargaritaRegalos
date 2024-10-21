@@ -91,20 +91,21 @@ function contarCantidad(carrito) {
 }
 
 function confirmarCompra(stringNombres) {
-    let confirmar = null
-    while (confirmar == null || confirmar == 'No') {
+    let confirmar = ''
+    while (!(confirmar == null) && confirmar != 'no' && confirmar != 'si') {
         confirmar = prompt('Productos elegidos:\n'
             + stringNombres
-            + '\nTotal: '
+            + '\nTotal: $'
             + total
-            + '\n ¿Desea confirmar la compra?')
-
-        if (confirmar === null || confirmar == 'No') {
+            + '\n ¿Desea confirmar la compra? (Si / No)')
+        console.log(confirmar)
+        if (confirmar === null || confirmar.toLowerCase() === 'no') {
             alert('Puede presionar F5 para volver a realizar la compra')
-        } else if (confirmar === "" || confirmar == 'Si') {
+        } else if (confirmar == '' || confirmar.toLowerCase() === 'si') {
             alert('¡Gracias por comprar en Margarita Deco y Eventos!\nEsperamos que regreses pronto!')
+            break
         } else {
-            alert('Confirmar con el boton aceptar o cancelar.\nTambién puede escribir "Si" o "No"')
+            alert('Confirmar o rechazar con el boton aceptar o cancelar.\nTambién puede escribir "Si" o "No"')
         }
     }
 }
@@ -122,15 +123,15 @@ while (op != 7 && !isNaN(op)) {
     7. Finalizar compra
     `));
 
-    if (op >= 1 && op <= 7) {
+    if (op >= 1 && op < 7) {
         carrito.push(agregarProducto(op))
-        console.log(carrito)
+        //console.log(carrito)
         alert('Producto agregado - '+ carrito[carrito.length-1].nombre)
     }
 }
 
 let total = sumaCompraTotal(carrito)
-console.log(total)
+// console.log(total)
 let cantidadProd = contarCantidad(carrito)
 
 let stringNombres = ''
