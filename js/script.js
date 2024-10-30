@@ -71,6 +71,7 @@ for (let codigo in cantidadProd) {
 confirmarCompra(stringNombres)
 */
 
+
 function confirmarCompra(){
 
 }
@@ -129,9 +130,9 @@ function main() {
 
     //console.log(op)
     
-    const carritoConCantidad = contarProdCarrito(carrito)
-    console.log(carritoConCantidad)
-    confirmarCompra()
+    const carritoResult = contarProdCarrito(carrito)
+    console.log(carritoResult)
+    confirmarCompra(carritoResult)
 
 }
 
