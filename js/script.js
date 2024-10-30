@@ -20,11 +20,7 @@ productos.push(new Producto(4, "Bombones aromáticos x 15", 10500.00, 50, "../as
 productos.push(new Producto(5, "Yerbero y azucarero", 5500, 12, "../assets/img/imagenes/yerbero_azucarero.jpg"))
 productos.push(new Producto(6, "Souvenires de velas x 100", 20000.00, 0, "../assets/img/imagenes/souvenir_velas_x100.jpg"))
 
-//console.log(productos)
-
-
-
-
+/*
 function sumaCompraTotal(carrito) {
     let arr = carrito.map((num) => num.precio).reduce((acu, valor) => acu + valor, 0);
     //console.log(arr)
@@ -73,74 +69,35 @@ for (let codigo in cantidadProd) {
 }
 
 confirmarCompra(stringNombres)
+*/
 
-/*
+function confirmarCompra(){
+
+}
+
+function contarProdCarrito(carrito){
+    let resumen = {}
+    carrito.forEach((item) => {
+        if (resumen[item.codigo]) {
+            resumen[item.codigo].cantidad++;
+        } else {
+            resumen[item.codigo] = {cantidad: 1, ...item}
+        }
+    });
+    return resumen
+}
+
 function agregarProducto(op) {
-    switch (op) {
-        case 1:
-            if (prod1.stock != 0) {
-                prod1.stock -= 1;
-                return prod1;
-            } else {
-                alert('No hay más stock de ese producto.')
-                return false
-            }
-        case 2:
-            if (prod2.stock != 0) {
-                prod2.stock -= 1;
-                return prod2;
-            } else {
-                alert('No hay más stock de ese producto.')
-                return false
-            }
-        case 3:
-            if (prod3.stock != 0) {
-                prod3.stock -= 1;
-                return prod3;
-            } else {
-                alert('No hay más stock de ese producto.')
-                return false
-            }
-        case 4:
-            if (prod4.stock != 0) {
-                prod4.stock -= 1;
-                return prod4;
-            } else {
-                alert('No hay más stock de ese producto.')
-                return false
-            }
-        case 5:
-            if (prod5.stock != 0) {
-                prod5.stock -= 1;
-                return prod5;
-            } else {
-                alert('No hay más stock de ese producto.')
-                return false
-            }
-        case 6:
-            if (prod6.stock != 0) {
-                prod6.stock -= 1;
-                return prod6;
-            } else {
-                alert('No hay más stock de ese producto.')
-                return false
-            }
-    }
-}*/
-
-function agregarProducto(op){
-    const alCarrito = productos.find((obj) => {
-        obj.codigo == op
-    })
-    
-    return alCarrito
+    let prod = productos[op-1]
+    prod.stock -= 1
+    return prod
 }
 
 function main() {
     alert('A continuación elija los productos que desea comprar')
-    let op = 0
-    while (op != 7 && !isNaN(op)) {
-        op = parseInt(prompt(`Productos: 
+    let op = null
+    while (op != 7) {
+        op = prompt(`Productos: 
     1. ${productos[0].nombre} - $ ${productos[0].precio}
     2. ${productos[1].nombre} - $ ${productos[1].precio}
     3. ${productos[2].nombre} - $ ${productos[2].precio}
@@ -148,14 +105,34 @@ function main() {
     5. ${productos[4].nombre} - $ ${productos[4].precio}
     6. ${productos[5].nombre} - $ ${productos[5].precio}
     7. Finalizar compra
-    `));
+    `);
 
-        if (op >= 1 && op < 7) {
-            carrito.push(agregarProducto(op))
-            //console.log(carrito)
-            alert('Producto agregado - ' + carrito[carrito.length - 1].nombre)
+        if (op === null) {
+            console.log('Uso cancelar');
+            break;
+        }
+        op = parseInt(op);
+        console.log(op)
+        if (op >= 1 && op <= 6) {
+            let prodDisp = agregarProducto(op)
+            if (prodDisp.stock > 0) {
+                carrito.push(prodDisp)
+                console.log('Producto agregado - ' + carrito[carrito.length - 1].nombre)
+            } else {
+                console.log('No hay mas stock de ese producto')
+                prodDisp.stock = 0
+            }
+        } else if (op !== 7) {
+            console.log('Opción incorrecta');
         }
     }
+
+    //console.log(op)
+    
+    const carritoConCantidad = contarProdCarrito(carrito)
+    console.log(carritoConCantidad)
+    confirmarCompra()
+
 }
 
 // Inicio
