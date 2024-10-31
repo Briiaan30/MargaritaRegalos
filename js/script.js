@@ -11,15 +11,58 @@ class Producto {
     }
 }
 
-let productos = []
-
+let productos = [
+    {
+        codigo: 1,
+        nombre: "Flores",
+        precio: 4000.00,
+        stock: 10,
+        img: "../assets/img/imagenes/flores.jpg"
+    },
+    {
+        codigo: 2,
+        nombre: "Bolso de Cristal + Set Matero",
+        precio: 15000.00,
+        stock: 5,
+        img: "../assets/img/imagenes/bolso_cristal_mas_set_matero.jpg"
+    },
+    {
+        codigo: 3,
+        nombre: "Almohadón Matero",
+        precio: 22000.00,
+        stock: 7,
+        img: "../assets/img/imagenes/almohadon_matero.jpg"
+    },
+    {
+        codigo: 4,
+        nombre: "Bombones aromáticos x 15",
+        precio: 10500.00,
+        stock: 50,
+        img: "../assets/img/imagenes/bombones_aromaticos.jpg"
+    },
+    {
+        codigo: 5,
+        nombre: "Yerbero y azucarero",
+        precio: 5500,
+        stock: 12,
+        img: "../assets/img/imagenes/yerbero_azucarero.jpg"
+    },
+    {
+        codigo: 6,
+        nombre: "Souvenires de velas x 100",
+        precio: 20000.00,
+        stock: 0,
+        img: "../assets/img/imagenes/souvenir_velas_x100.jpg"
+    },
+]
+/*
 productos.push(new Producto(1, "Flores", 4000.00, 10, "../assets/img/imagenes/flores.jpg"))
 productos.push(new Producto(2, "Bolso de Cristal + Set Matero", 15000.00, 5, "../assets/img/imagenes/bolso_cristal_mas_set_matero.jpg"))
 productos.push(new Producto(3, "Almohadón Matero", 22000.00, 7, "../assets/img/imagenes/almohadon_matero.jpg"))
 productos.push(new Producto(4, "Bombones aromáticos x 15", 10500.00, 50, "../assets/img/imagenes/bombones_aromaticos.jpg"))
 productos.push(new Producto(5, "Yerbero y azucarero", 5500, 12, "../assets/img/imagenes/yerbero_azucarero.jpg"))
 productos.push(new Producto(6, "Souvenires de velas x 100", 20000.00, 0, "../assets/img/imagenes/souvenir_velas_x100.jpg"))
-
+*/
 /*
 function sumaCompraTotal(carrito) {
     let arr = carrito.map((num) => num.precio).reduce((acu, valor) => acu + valor, 0);
