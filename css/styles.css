@@ -4,6 +4,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    /* border: 1px rgb(168, 0, 0) solid; */
 }
 
 body{
@@ -38,18 +39,12 @@ header{
 .cards-item{
     display: flex;
     flex-direction: column;
-    border: 2px solid #616161;
-    border-radius: 4px;
-    box-shadow: 1px 1px 8px black;
-    width: 25rem;
-}
-
-.cards-item img{
-    border-radius: 25px;
-    filter:drop-shadow(1px 1px 1px black);
-    padding: 15px 20px;
-    width: 100%;
-    height: 30rem;
+    align-items: center;
+    border: 1px solid #6161615e;
+    border-radius: 15px;
+    box-shadow: 0px 0px 12px #61616198;
+    width: 17rem;
+    height: 34.5rem;
 }
 
 .card-descripcion{
@@ -57,27 +52,74 @@ header{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 10px 10px 0 10px
+    margin: 8px;
+    height: 7rem;
+}
+
+.card-descripcion h2, .card-descripcion p {
+    margin: 5px;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-descripcion h2 {
+    font-size: 17pt;
 }
 
 .card-descripcion p {
-    text-align: center;
+    font-size: 12pt;
+    width:calc(100% - 20px);
+    line-height: 18px;
+}
+
+.cards-item img{
+    border-radius: 15px;
+    filter:drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.5));
+    margin: 10px;
+    width: 15rem;
+    height: 21rem;
+    object-fit: cover;
+    z-index: -1;
 }
 
 .boton-container{
-    margin: 10px;
-    padding: 10px;
+    justify-content: space-between;
+    align-self: center;
+    width: 220px;
+    margin-top: 10px;
 }
 
 .boton-agregar{
+    background-color: rgb(255, 235, 168);
+    align-self: center;
+    border: 0px;
+    border-radius: 7px;;
+    box-shadow: 0px 0px 6px #000000d2;
+    transition: transform 0.2s ease-in-out;
     width: 100px;
     height: 2rem;
-    border-radius: 5px;
-    background-color: rgb(255, 235, 168);
 }
 
 .boton-agregar:hover{
     background-color: rgb(206, 180, 94);
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.boton-precio{
+    justify-content: space-evenly;
+    align-items: center;
+    width: 8rem;
+    height: 2rem;
+}
+
+.boton-precio p {
+    font-size: 17pt;
+    text-align: end;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    margin: 0;
+    padding-right: 8px;
 }
 
 footer {
