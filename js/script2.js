@@ -1,3 +1,5 @@
+// const Swal = require('sweetalert2')
+
 let productos = [
     {
         codigo: 1,
@@ -44,7 +46,7 @@ let productos = [
         nombre: "Souvenires de Velas x 100",
         descr: "Excelente regalo para un casamiento o una fiesta de 15 de tu hija",
         precio: 20000.00,
-        stock: 0,
+        stock: 1,
         img: "../assets/img/imagenes/souvenir_velas_x100.jpg"
     },
 ]
@@ -63,10 +65,9 @@ let carrito = []
 
 
 let sectionCards = document.getElementById('sectionCards')
-console.log(sectionCards)
 
 productos.forEach(item => {
-    console.log(item.nombre)
+    // console.log(item.nombre)
     sectionCards.innerHTML += `<div class="pt-2 pb-2">
     <div class="container cards-container">
         <div class="cards-item">
@@ -76,13 +77,67 @@ productos.forEach(item => {
             </div>
             <img src=${item.img}>
             <div class="boton-container d-flex">
-                <button class="boton-agregar">Agregar</button>
+                <button class="boton-agregar" data-id="${item.codigo}">Agregar</button>
                 <div class="boton-precio d-flex">
-                    <p><b>$${item.precio}</b></p>
+                    <p>$${item.precio}</p>
                 </div>
             </div>
         </div>
     </div>
 </div>`
-    
 });
+
+
+
+function agregarCarrito() {
+
+    let botonAgregar = document.querySelectorAll('.boton-agregar')
+    botonAgregar.forEach(boton => {
+        boton.addEventListener('click', () => {
+            const idProd = parseInt(boton.getAttribute('data-id'));
+            const prodSelect = productos.find(item => item.codigo === idProd)
+            if (prodSelect.stock > 0) {
+                carrito.push(prodSelect)
+                prodSelect.stock -= 1
+                console.log(`Stock: ${prodSelect.stock}`)
+
+                Toastify({
+                    text: "¡Producto agregado!",
+                    duration: 2000, 
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                        color: 'black',
+                        background: "linear-gradient(90deg, rgba(255,199,41,1) 18%, rgba(255,248,0,1) 76%)",
+                    },
+                    className: "claseToastify",
+                    onClick: function () { } // Callback after click
+                }).showToast();
+
+                // Toastify({
+                //     text: "¡Este es un toast con texto más grande!",
+                //     duration: 3000,
+                //     gravity: "top",
+                //     position: 'right',
+                //     backgroundColor: "#4CAF50",
+                //     className: "custom-toast" // Clase personalizada
+                // }).showToast();
+                
+
+            } else {
+                Swal.fire({
+                    title: "<strong>Lo siento.<br>No hay más stock</strong>",
+                    icon: "warning",
+                    html: `Elige otro producto.<br> ! Pronto tendremos mas ¡`,
+                    showCloseButton: true,
+                    focusConfirm: false,
+                    confirmButtonText: `Aceptar`,
+                });
+            }
+            // console.log(carrito)
+        })
+    });
+};
+
+agregarCarrito()

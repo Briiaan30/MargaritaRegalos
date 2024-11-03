@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
+
 * {
     padding: 0;
     margin: 0;
@@ -109,6 +110,7 @@ header{
 .boton-precio{
     justify-content: space-evenly;
     align-items: center;
+    font-weight: bold;
     width: 8rem;
     height: 2rem;
 }
@@ -122,6 +124,15 @@ header{
     padding-right: 8px;
 }
 
+.claseToastify {
+    font-size: 14pt; /* Cambia este valor al tamaño que desees */
+    font-weight: bold; /* Opcional: puedes hacer el texto más grueso */
+    border-radius: 10px !important; /* Redondea las esquinas */
+    /* box-shadow: 0px 0px 4px #000000; */
+    filter: drop-shadow(0px 0px 7px rgba(114, 114, 114, 0.788));
+}
+
+
 footer {
     bottom: 0;
     left: 0;
@@ -129,3 +140,4 @@ footer {
     text-align: center;
     width: 100%;
 }
+

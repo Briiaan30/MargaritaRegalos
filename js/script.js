@@ -15,6 +15,7 @@ let productos = [
     {
         codigo: 1,
         nombre: "Flores",
+        descr: "Flores hermosas y hechas con amor",
         precio: 4000.00,
         stock: 10,
         img: "../assets/img/imagenes/flores.jpg"
@@ -22,6 +23,7 @@ let productos = [
     {
         codigo: 2,
         nombre: "Bolso de Cristal + Set Matero",
+        descr: "Perfecto para el conjunto de mate",
         precio: 15000.00,
         stock: 5,
         img: "../assets/img/imagenes/bolso_cristal_mas_set_matero.jpg"
@@ -29,32 +31,37 @@ let productos = [
     {
         codigo: 3,
         nombre: "Almohadón Matero",
+        descr: "Ideal para ir al rio y usarlo sobre el cesped o la arena",
         precio: 22000.00,
         stock: 7,
         img: "../assets/img/imagenes/almohadon_matero.jpg"
     },
     {
         codigo: 4,
-        nombre: "Bombones aromáticos x 15",
+        nombre: "Bombones Aromáticos x 15",
+        descr: "Bombones para darle un nuevo aroma a tu vida",
         precio: 10500.00,
         stock: 50,
         img: "../assets/img/imagenes/bombones_aromaticos.jpg"
     },
     {
         codigo: 5,
-        nombre: "Yerbero y azucarero",
+        nombre: "Yerbero y Azucarero",
+        descr: "Conjunto personalizable para la yerba y el azucar",
         precio: 5500,
         stock: 12,
         img: "../assets/img/imagenes/yerbero_azucarero.jpg"
     },
     {
         codigo: 6,
-        nombre: "Souvenires de velas x 100",
+        nombre: "Souvenires de Velas x 100",
+        descr: "Excelente regalo para un casamiento o una fiesta de 15 de tu hija",
         precio: 20000.00,
         stock: 0,
         img: "../assets/img/imagenes/souvenir_velas_x100.jpg"
     },
 ]
+
 /*
 productos.push(new Producto(1, "Flores", 4000.00, 10, "../assets/img/imagenes/flores.jpg"))
 productos.push(new Producto(2, "Bolso de Cristal + Set Matero", 15000.00, 5, "../assets/img/imagenes/bolso_cristal_mas_set_matero.jpg"))
