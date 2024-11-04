@@ -52,6 +52,7 @@ let productos = [
 ]
 
 let carrito = []
+let carritoResumen
 
 /*
  let idItem = document.getElementById('idItemPrecio')
@@ -63,12 +64,72 @@ let carrito = []
  console.log(idItem.innerText)
 */
 
+function contarProdCarrito(carrito){
+    let resumen = {}
+    carrito.forEach((item) => {
+        if (resumen[item.codigo]) {
+            resumen[item.codigo].cantidad++;
+        } else {
+            resumen[item.codigo] = {cantidad: 1, ...item}
+        }
+    });
+    return resumen
+}
 
-let sectionCards = document.getElementById('sectionCards')
+function agregarCarrito() {
 
-productos.forEach(item => {
-    // console.log(item.nombre)
-    sectionCards.innerHTML += `<div class="pt-2 pb-2">
+    let botonAgregar = document.querySelectorAll('.boton-agregar')
+    botonAgregar.forEach(boton => {
+        boton.addEventListener('click', () => {
+            const idProd = parseInt(boton.getAttribute('data-id'));
+            const prodSelect = productos.find(item => item.codigo === idProd)
+            if (prodSelect.stock > 0) {
+                carrito.push(prodSelect)
+                prodSelect.stock -= 1
+                console.log(`Stock: ${prodSelect.stock}`)
+
+                Toastify({
+                    text: "¡Producto agregado!",
+                    duration: 2000,
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                        color: 'black',
+                        background: "linear-gradient(90deg, rgba(255,199,41,1) 18%, rgba(255,248,0,1) 76%)",
+                    },
+                    className: "claseToastify",
+                    onClick: function () { } // Callback after click
+                }).showToast();
+
+            } else {
+                Swal.fire({
+                    title: "<strong>Lo siento.<br>No hay más stock</strong>",
+                    icon: "warning",
+                    html: `Elige otro producto.<br> ! Pronto tendremos mas ¡`,
+                    showCloseButton: true,
+                    focusConfirm: false,
+                    confirmButtonText: `Aceptar`,
+                });
+            }
+            console.log('Carrito: ',carrito)
+            cantidadProds = contarProdCarrito(carrito)
+            console.log('Cantidad Productos: ',cantidadProds)
+            let stringifyProds = JSON.stringify(cantidadProds)
+            console.log('Convertido: ',stringifyProds)
+            localStorage.setItem("carrito",stringifyProds)
+        })
+    });
+};
+
+
+function main() {
+
+    let sectionCards = document.getElementById('sectionCards')
+
+    productos.forEach(item => {
+        // console.log(item.nombre)
+        sectionCards.innerHTML += `<div class="pt-2 pb-2">
     <div class="container cards-container">
         <div class="cards-item">
             <div class="card-descripcion">
@@ -85,59 +146,25 @@ productos.forEach(item => {
         </div>
     </div>
 </div>`
-});
-
-
-
-function agregarCarrito() {
-
-    let botonAgregar = document.querySelectorAll('.boton-agregar')
-    botonAgregar.forEach(boton => {
-        boton.addEventListener('click', () => {
-            const idProd = parseInt(boton.getAttribute('data-id'));
-            const prodSelect = productos.find(item => item.codigo === idProd)
-            if (prodSelect.stock > 0) {
-                carrito.push(prodSelect)
-                prodSelect.stock -= 1
-                console.log(`Stock: ${prodSelect.stock}`)
-
-                Toastify({
-                    text: "¡Producto agregado!",
-                    duration: 2000, 
-                    gravity: "bottom", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
-                    style: {
-                        color: 'black',
-                        background: "linear-gradient(90deg, rgba(255,199,41,1) 18%, rgba(255,248,0,1) 76%)",
-                    },
-                    className: "claseToastify",
-                    onClick: function () { } // Callback after click
-                }).showToast();
-
-                // Toastify({
-                //     text: "¡Este es un toast con texto más grande!",
-                //     duration: 3000,
-                //     gravity: "top",
-                //     position: 'right',
-                //     backgroundColor: "#4CAF50",
-                //     className: "custom-toast" // Clase personalizada
-                // }).showToast();
-                
-
-            } else {
-                Swal.fire({
-                    title: "<strong>Lo siento.<br>No hay más stock</strong>",
-                    icon: "warning",
-                    html: `Elige otro producto.<br> ! Pronto tendremos mas ¡`,
-                    showCloseButton: true,
-                    focusConfirm: false,
-                    confirmButtonText: `Aceptar`,
-                });
-            }
-            // console.log(carrito)
-        })
     });
-};
 
-agregarCarrito()
+    agregarCarrito()
+
+    let sectionConfirmarCompra = document.createElement('section');
+    sectionConfirmarCompra.id = 'idConfirmCompra';
+    sectionConfirmarCompra.classList.add('boton-confirmar-compra');
+    sectionConfirmarCompra.innerHTML = '<img id="idCarritoGif" src="../assets/img/gifs/carritoEstatico.jpg" alt="">'
+    let main = document.getElementById('idMain')
+    main.append(sectionConfirmarCompra)
+
+    let img = document.getElementById('idCarritoGif')
+    let duracionGif = 1000
+    img.addEventListener('mouseenter' , () => {
+        img.src = '../assets/img/gifs/carrito.gif'
+        setTimeout(() => {
+            img.src = '../assets/img/gifs/carritoEstatico.jpg';
+        }, duracionGif);
+    })
+}
+
+main()
