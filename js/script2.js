@@ -54,16 +54,6 @@ let productos = [
 let carrito = []
 let carritoResumen
 
-// class Producto {
-//     constructor(codigo, nombre, precio, stock, img) {
-//         this.codigo = codigo;
-//         this.nombre = nombre;
-//         this.precio = precio;
-//         this.stock = stock;
-//         this.img = img;
-//     }
-// }
-
 function resumenCarrito() {
 
     let listaProdsJson = JSON.parse(localStorage.getItem("carrito"))
@@ -129,20 +119,19 @@ function agregarCarrito() {
             if (prodSelect && prodSelect.stock > 0) {
                 carrito.push(prodSelect)
                 prodSelect.stock -= 1
-                // console.log(`Stock: ${prodSelect.stock}`)
 
                 Toastify({
                     text: "¡Producto agregado!",
                     duration: 2000,
-                    gravity: "bottom", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    gravity: "bottom",
+                    position: "right", 
+                    stopOnFocus: true, 
                     style: {
                         color: 'black',
                         background: "linear-gradient(90deg, rgba(255,199,41,1) 18%, rgba(255,248,0,1) 76%)",
                     },
                     className: "claseToastify",
-                    onClick: function () { } // Callback after click
+                    onClick: function () { }
                 }).showToast();
 
             } else {
@@ -174,7 +163,7 @@ function main() {
     let sectionCards = document.getElementById('sectionCards')
 
     productos.forEach(item => {
-        // console.log(item.nombre)
+        
         sectionCards.innerHTML += `<div class="pt-2 pb-2">
     <div class="container cards-container">
         <div class="cards-item">
@@ -220,8 +209,6 @@ function main() {
     let botonCarrito = document.getElementById('idBotonCarrito')
     botonCarrito.addEventListener('click', () => {
         resumenCarrito()
-
-        // console.log('true')
     })
 }
 
