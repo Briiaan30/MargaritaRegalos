@@ -54,23 +54,67 @@ let productos = [
 let carrito = []
 let carritoResumen
 
-/*
- let idItem = document.getElementById('idItemPrecio')
- console.log(idItem)
- console.log(idItem.innerHTML)
- console.log(idItem.innerText)
+class Producto {
+    constructor(codigo, nombre, precio, stock, img) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.stock = stock;
+        this.img = img;
+    }
+}
 
- idItem.innerText = "holas"
- console.log(idItem.innerText)
-*/
+function resumenCarrito() {
 
-function contarProdCarrito(carrito){
-    let resumen = {}
+    let convertJson = JSON.parse(localStorage.getItem("carrito"))
+    let precioTotal = convertJson.map(item => item.precio).reduce((acu, valor) => acu + valor, 0);
+    console.log(precioTotal)
+
+
+
+
+    Swal.fire({
+        title: "Carrito de compras",
+        html: `
+        Verificar antes de continuar con la compra
+        
+        `,
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: `Confirmar`,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar"
+    });
+
+    // Swal.fire({
+    //     title: "¿Confirmar compra?",
+    //     // text: "You won't be able to revert this!",
+    //     icon: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3085d6",
+    //     cancelButtonColor: "#d33",
+    //     cancelButtonText: "Cancelar",
+    //     confirmButtonText: "Confirmar"
+    // }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         Swal.fire({
+    //             title: "¡Compra realizada con exito!",
+    //             text: "En los proximos dias te estaremos contactando para organizar la entrega",
+    //             icon: "success"
+    //         });
+    //     }
+    // });
+}
+
+function contarProdCarrito(carrito) {
+    let resumen = []
     carrito.forEach((item) => {
         if (resumen[item.codigo]) {
             resumen[item.codigo].cantidad++;
         } else {
-            resumen[item.codigo] = {cantidad: 1, ...item}
+            resumen[item.codigo] = { cantidad: 1, ...item }
         }
     });
     return resumen
@@ -83,10 +127,10 @@ function agregarCarrito() {
         boton.addEventListener('click', () => {
             const idProd = parseInt(boton.getAttribute('data-id'));
             const prodSelect = productos.find(item => item.codigo === idProd)
-            if (prodSelect.stock > 0) {
+            if (prodSelect && prodSelect.stock > 0) {
                 carrito.push(prodSelect)
                 prodSelect.stock -= 1
-                console.log(`Stock: ${prodSelect.stock}`)
+                // console.log(`Stock: ${prodSelect.stock}`)
 
                 Toastify({
                     text: "¡Producto agregado!",
@@ -112,12 +156,16 @@ function agregarCarrito() {
                     confirmButtonText: `Aceptar`,
                 });
             }
-            console.log('Carrito: ',carrito)
+            // console.log('Carrito: ', carrito)
             cantidadProds = contarProdCarrito(carrito)
-            console.log('Cantidad Productos: ',cantidadProds)
+            console.log(cantidadProds)
+            // console.log('Cantidad Productos: ', cantidadProds)
             let stringifyProds = JSON.stringify(cantidadProds)
-            console.log('Convertido: ',stringifyProds)
-            localStorage.setItem("carrito",stringifyProds)
+            console.log(stringifyProds)
+            
+
+            // console.log('Convertido: ', stringifyProds)
+            localStorage.setItem("carrito", stringifyProds)
         })
     });
 };
@@ -153,17 +201,29 @@ function main() {
     let sectionConfirmarCompra = document.createElement('section');
     sectionConfirmarCompra.id = 'idConfirmCompra';
     sectionConfirmarCompra.classList.add('boton-confirmar-compra');
-    sectionConfirmarCompra.innerHTML = '<img id="idCarritoGif" src="../assets/img/gifs/carritoEstatico.jpg" alt="">'
+    sectionConfirmarCompra.innerHTML =
+        `<button id="idBotonCarrito" class="boton-carrito">
+        <img id="idCarritoGif" src="../assets/img/gifs/carritoEstatico.jpg" alt="">
+        <div id="idCarritoGif2">Ver carrito</div>
+    </button>`
     let main = document.getElementById('idMain')
     main.append(sectionConfirmarCompra)
 
     let img = document.getElementById('idCarritoGif')
+    let img2 = document.getElementById('idCarritoGif2')
     let duracionGif = 1000
-    img.addEventListener('mouseenter' , () => {
+    img2.addEventListener('mouseenter', () => {
         img.src = '../assets/img/gifs/carrito.gif'
         setTimeout(() => {
             img.src = '../assets/img/gifs/carritoEstatico.jpg';
         }, duracionGif);
+    })
+
+    let botonCarrito = document.getElementById('idBotonCarrito')
+    botonCarrito.addEventListener('click', () => {
+        resumenCarrito()
+
+        // console.log('true')
     })
 }
 

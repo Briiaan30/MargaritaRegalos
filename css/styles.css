@@ -124,6 +124,52 @@ header{
     padding-right: 8px;
 }
 
+.boton-confirmar-compra{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.boton-carrito{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgb(206, 180, 94);
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px rgb(206, 180, 94);
+    width: 17rem;
+    height: 10vh;
+}
+
+.boton-carrito:hover{
+    background-color: rgba(206, 180, 94, 0.137) ;
+}
+
+.boton-carrito:active{
+    opacity: 60%;
+}
+
+.boton-carrito img{
+    scale: 1.3;
+    margin: 10px;
+}
+
+.boton-carrito div {
+    font-size: 16pt;
+    font-weight: bold;
+    width: 50%;
+    margin:10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.boton-carrito div:hover{
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
+}
+
 .claseToastify {
     font-size: 14pt; /* Cambia este valor al tamaño que desees */
     font-weight: bold; /* Opcional: puedes hacer el texto más grueso */
