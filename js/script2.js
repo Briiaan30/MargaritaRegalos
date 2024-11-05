@@ -54,21 +54,29 @@ let productos = [
 let carrito = []
 let carritoResumen
 
-class Producto {
-    constructor(codigo, nombre, precio, stock, img) {
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.stock = stock;
-        this.img = img;
-    }
-}
+// class Producto {
+//     constructor(codigo, nombre, precio, stock, img) {
+//         this.codigo = codigo;
+//         this.nombre = nombre;
+//         this.precio = precio;
+//         this.stock = stock;
+//         this.img = img;
+//     }
+// }
 
 function resumenCarrito() {
 
-    let convertJson = JSON.parse(localStorage.getItem("carrito"))
-    let precioTotal = convertJson.map(item => item.precio).reduce((acu, valor) => acu + valor, 0);
+    let listaProdsJson = JSON.parse(localStorage.getItem("carrito"))
+    console.log(listaProdsJson)
+    let precioTotal = listaProdsJson.map(item => item.precio).reduce((acu, valor) => acu + valor, 0);
     console.log(precioTotal)
+
+    let cadenaTextoProds = ''
+    listaProdsJson.forEach(prod => { 
+        cadenaTextoProds += `${prod.nombre} - Cantidad: ${prod.cantidad} \n <br>`
+    })
+
+    console.log(cadenaTextoProds)
 
 
 
@@ -76,9 +84,10 @@ function resumenCarrito() {
     Swal.fire({
         title: "Carrito de compras",
         html: `
-        Verificar antes de continuar con la compra
-        
-        `,
+        Verificar antes de continuar con la compra <br>
+        ${cadenaTextoProds}
+        <br>
+        Total: $${precioTotal}`,
         showCloseButton: true,
         showCancelButton: true,
         focusConfirm: false,
@@ -86,30 +95,19 @@ function resumenCarrito() {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "¡Compra realizada con exito!",
+                        text: "En los proximos dias te estaremos contactando para organizar la entrega",
+                        icon: "success"
+                    });
+                }
     });
-
-    // Swal.fire({
-    //     title: "¿Confirmar compra?",
-    //     // text: "You won't be able to revert this!",
-    //     icon: "warning",
-    //     showCancelButton: true,
-    //     confirmButtonColor: "#3085d6",
-    //     cancelButtonColor: "#d33",
-    //     cancelButtonText: "Cancelar",
-    //     confirmButtonText: "Confirmar"
-    // }).then((result) => {
-    //     if (result.isConfirmed) {
-    //         Swal.fire({
-    //             title: "¡Compra realizada con exito!",
-    //             text: "En los proximos dias te estaremos contactando para organizar la entrega",
-    //             icon: "success"
-    //         });
-    //     }
-    // });
 }
 
 function contarProdCarrito(carrito) {
-    let resumen = []
+    let resumen = {}
     carrito.forEach((item) => {
         if (resumen[item.codigo]) {
             resumen[item.codigo].cantidad++;
@@ -117,7 +115,7 @@ function contarProdCarrito(carrito) {
             resumen[item.codigo] = { cantidad: 1, ...item }
         }
     });
-    return resumen
+    return Object.values(resumen)
 }
 
 function agregarCarrito() {
@@ -127,6 +125,7 @@ function agregarCarrito() {
         boton.addEventListener('click', () => {
             const idProd = parseInt(boton.getAttribute('data-id'));
             const prodSelect = productos.find(item => item.codigo === idProd)
+            //console.log(prodSelect)
             if (prodSelect && prodSelect.stock > 0) {
                 carrito.push(prodSelect)
                 prodSelect.stock -= 1
@@ -156,12 +155,11 @@ function agregarCarrito() {
                     confirmButtonText: `Aceptar`,
                 });
             }
-            // console.log('Carrito: ', carrito)
+            //console.log('Carrito: ', carrito)
             cantidadProds = contarProdCarrito(carrito)
-            console.log(cantidadProds)
-            // console.log('Cantidad Productos: ', cantidadProds)
+            //console.log('Cantidad Productos: ', cantidadProds)
             let stringifyProds = JSON.stringify(cantidadProds)
-            console.log(stringifyProds)
+            //console.log(stringifyProds)
             
 
             // console.log('Convertido: ', stringifyProds)

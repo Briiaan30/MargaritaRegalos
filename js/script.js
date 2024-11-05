@@ -70,25 +70,13 @@ productos.push(new Producto(4, "Bombones aromáticos x 15", 10500.00, 50, "../as
 productos.push(new Producto(5, "Yerbero y azucarero", 5500, 12, "../assets/img/imagenes/yerbero_azucarero.jpg"))
 productos.push(new Producto(6, "Souvenires de velas x 100", 20000.00, 0, "../assets/img/imagenes/souvenir_velas_x100.jpg"))
 */
-/*
+
 function sumaCompraTotal(carrito) {
     let arr = carrito.map((num) => num.precio).reduce((acu, valor) => acu + valor, 0);
     //console.log(arr)
     return arr;
 }
 
-function contarCantidad(carrito) {
-    let resumen = {};
-
-    carrito.forEach((item) => {
-        if (resumen[item.codigo]) {
-            resumen[item.codigo].cantidad++;
-        } else {
-            resumen[item.codigo] = { nombre: item.nombre, cantidad: 1 };
-        }
-    });
-    return resumen
-}
 
 function confirmarCompra(stringNombres) {
     let confirmar = ''
@@ -119,7 +107,7 @@ for (let codigo in cantidadProd) {
 }
 
 confirmarCompra(stringNombres)
-*/
+
 
 
 function confirmarCompra(){
