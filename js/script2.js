@@ -1,5 +1,5 @@
 // const Swal = require('sweetalert2')
-
+/*
 let productos = [
     {
         codigo: 1,
@@ -50,9 +50,24 @@ let productos = [
         img: "../assets/img/imagenes/souvenir_velas_x100.jpg"
     },
 ]
+*/
 
+const arrayProd =[]
 let carrito = []
 let carritoResumen
+
+async function productosJSON(){
+    try {
+        
+        const response = await fetch('../api/data.json')
+        datosJson = await response.json()
+        datosJson.forEach(element => {
+            arrayProd.push(element)
+        });
+    } catch (error) {
+        console.log('Error: ',error)
+    }
+}
 
 function resumenCarrito() {
 
@@ -160,9 +175,11 @@ function agregarCarrito() {
 
 function main() {
 
+    productosJSON()
+    console.log(arrayProd)
     let sectionCards = document.getElementById('sectionCards')
 
-    productos.forEach(item => {
+    arrayProd.forEach(item => {
         
         sectionCards.innerHTML += `<div class="pt-2 pb-2">
     <div class="container cards-container">
@@ -182,7 +199,7 @@ function main() {
     </div>
 </div>`
     });
-
+    
     agregarCarrito()
 
     let sectionConfirmarCompra = document.createElement('section');
