@@ -52,20 +52,22 @@ let productos = [
 ]
 */
 
-const arrayProd =[]
+let arrayProd = []
 let carrito = []
 let carritoResumen
+let cantidadProds = []
 
-async function productosJSON(){
+async function productosJSON() {
     try {
-        
+
         const response = await fetch('../api/data.json')
         datosJson = await response.json()
+        // console.log('datosJson:', datosJson)
         datosJson.forEach(element => {
             arrayProd.push(element)
         });
     } catch (error) {
-        console.log('Error: ',error)
+        console.log('Error: ', error)
     }
 }
 
@@ -77,7 +79,7 @@ function resumenCarrito() {
     console.log(precioTotal)
 
     let cadenaTextoProds = ''
-    listaProdsJson.forEach(prod => { 
+    listaProdsJson.forEach(prod => {
         cadenaTextoProds += `${prod.nombre} - Cantidad: ${prod.cantidad} \n <br>`
     })
 
@@ -102,16 +104,16 @@ function resumenCarrito() {
         cancelButtonText: "Cancelar"
     }).then((result) => {
         if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "¡Compra realizada con exito!",
-                        text: "En los proximos dias te estaremos contactando para organizar la entrega",
-                        icon: "success"
-                    });
-                }
+            Swal.fire({
+                title: "¡Compra realizada con exito!",
+                text: "En los proximos dias te estaremos contactando para organizar la entrega",
+                icon: "success"
+            });
+        }
     });
 }
 
-function contarProdCarrito(carrito) {
+async function contarProdCarrito(carrito) {
     let resumen = {}
     carrito.forEach((item) => {
         if (resumen[item.codigo]) {
@@ -123,24 +125,38 @@ function contarProdCarrito(carrito) {
     return Object.values(resumen)
 }
 
-function agregarCarrito() {
+async function actualizarBotonQuitar(botonAgregar) {
+    const botonQuitar = document.querySelectorAll('.boton-quitar')
+    botonQuitar.forEach(async boton => {
+        const idProd = parseInt(boton.getAttribute('data-id'))
+        const prodEnCarrito = cantidadProds.find(prod => prod.codigo === idProd)
+
+        if (prodEnCarrito && prodEnCarrito.cantidad > 0) {
+            boton.disabled = false
+        } else {
+            boton.disabled = true
+        }
+    })
+}
+
+async function agregarCarrito() {
 
     let botonAgregar = document.querySelectorAll('.boton-agregar')
-    botonAgregar.forEach(boton => {
-        boton.addEventListener('click', () => {
+    await botonAgregar.forEach(boton => {
+        boton.addEventListener('click', async () => {
             const idProd = parseInt(boton.getAttribute('data-id'));
-            const prodSelect = productos.find(item => item.codigo === idProd)
-            //console.log(prodSelect)
+            const prodSelect = arrayProd.find(item => item.codigo === idProd)
+
             if (prodSelect && prodSelect.stock > 0) {
-                carrito.push(prodSelect)
+                await carrito.push(prodSelect)
                 prodSelect.stock -= 1
 
                 Toastify({
                     text: "¡Producto agregado!",
                     duration: 2000,
                     gravity: "bottom",
-                    position: "right", 
-                    stopOnFocus: true, 
+                    position: "right",
+                    stopOnFocus: true,
                     style: {
                         color: 'black',
                         background: "linear-gradient(90deg, rgba(255,199,41,1) 18%, rgba(255,248,0,1) 76%)",
@@ -149,38 +165,59 @@ function agregarCarrito() {
                     onClick: function () { }
                 }).showToast();
 
-            } else {
-                Swal.fire({
-                    title: "<strong>Lo siento.<br>No hay más stock</strong>",
-                    icon: "warning",
-                    html: `Elige otro producto.<br> ! Pronto tendremos mas ¡`,
-                    showCloseButton: true,
-                    focusConfirm: false,
-                    confirmButtonText: `Aceptar`,
-                });
+                cantidadProds = await contarProdCarrito(carrito)
+                console.log('Array de objetos: ', cantidadProds)
+                await actualizarBotonQuitar(boton)
             }
-            //console.log('Carrito: ', carrito)
-            cantidadProds = contarProdCarrito(carrito)
-            //console.log('Cantidad Productos: ', cantidadProds)
-            let stringifyProds = JSON.stringify(cantidadProds)
-            //console.log(stringifyProds)
-            
 
+            if (prodSelect.stock == 0) {
+                boton.disabled = true
+                boton.classList.add('boton-agregar-desactivado')
+                boton.classList.remove('boton-agregar')
+            }
+            // Swal.fire({
+            //     title: "<strong>Lo siento.<br>Esto se va a quitar</strong>",
+            //     icon: "warning",
+            //     html: `Elige otro producto.<br> ! Pronto tendremos mas ¡`,
+            //     showCloseButton: true,
+            //     focusConfirm: false,
+            //     confirmButtonText: `Aceptar`,
+            // });
+
+            //console.log('Carrito: ', carrito)
+
+            // let stringifyProds = JSON.stringify(cantidadProds)
+            //console.log(stringifyProds)
             // console.log('Convertido: ', stringifyProds)
-            localStorage.setItem("carrito", stringifyProds)
+            // localStorage.setItem("carrito", stringifyProds)
         })
     });
 };
 
+async function quitarCarrito() {
+    let botonQuitar = document.querySelectorAll('.boton-quitar');
 
-function main() {
+    await botonQuitar.forEach(boton => {
 
-    productosJSON()
-    console.log(arrayProd)
+        boton.addEventListener('click', () => {
+            const idProd = parseInt(boton.getAttribute('data-id'))
+            const prodSelect = arrayProd.find(item => item.codigo === idProd)
+            // console.log(prodSelect.codigo)
+            // console.log(cantidadProds)
+
+        })
+    })
+
+}
+
+async function main() {
+
+    await productosJSON()
+    // console.log('arrayProd: ',arrayProd)
     let sectionCards = document.getElementById('sectionCards')
 
     arrayProd.forEach(item => {
-        
+        // console.log(item)
         sectionCards.innerHTML += `<div class="pt-2 pb-2">
     <div class="container cards-container">
         <div class="cards-item">
@@ -190,7 +227,8 @@ function main() {
             </div>
             <img src=${item.img}>
             <div class="boton-container d-flex">
-                <button class="boton-agregar" data-id="${item.codigo}">Agregar</button>
+                <button class="boton-agregar" data-id="${item.codigo}"> + </button>
+                <button class="boton-quitar" data-id="${item.codigo}" disabled> - </button>
                 <div class="boton-precio d-flex">
                     <p>$${item.precio}</p>
                 </div>
@@ -199,8 +237,9 @@ function main() {
     </div>
 </div>`
     });
-    
-    agregarCarrito()
+
+    await agregarCarrito()
+    await quitarCarrito()
 
     let sectionConfirmarCompra = document.createElement('section');
     sectionConfirmarCompra.id = 'idConfirmCompra';
