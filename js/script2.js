@@ -125,7 +125,7 @@ async function contarProdCarrito(carrito) {
     return Object.values(resumen)
 }
 
-async function actualizarBotonQuitar(botonAgregar) {
+async function actualizarBotonQuitar() {
     const botonQuitar = document.querySelectorAll('.boton-quitar')
     botonQuitar.forEach(async boton => {
         const idProd = parseInt(boton.getAttribute('data-id'))
@@ -167,7 +167,7 @@ async function agregarCarrito() {
 
                 cantidadProds = await contarProdCarrito(carrito)
                 console.log('Array de objetos: ', cantidadProds)
-                await actualizarBotonQuitar(boton)
+                await actualizarBotonQuitar()
             }
 
             if (prodSelect.stock == 0) {
@@ -196,15 +196,28 @@ async function agregarCarrito() {
 
 async function quitarCarrito() {
     let botonQuitar = document.querySelectorAll('.boton-quitar');
-
     await botonQuitar.forEach(boton => {
-
         boton.addEventListener('click', () => {
             const idProd = parseInt(boton.getAttribute('data-id'))
-            const prodSelect = arrayProd.find(item => item.codigo === idProd)
-            // console.log(prodSelect.codigo)
-            // console.log(cantidadProds)
+            const prodSelect = cantidadProds.find(item => item.codigo === idProd)
+            // console.log(prodSelect)
+            if(prodSelect && prodSelect.cantidad > 0){
+                prodSelect.cantidad--
+                // console.log(prodSelect)
+                if(prodSelect.cantidad == 0){
+                    cantidadProds = cantidadProds.filter(elem => elem.codigo != prodSelect.codigo)
+                }
+            }
+            if(prodSelect.cantidad == 0){
+                boton.disabled = true
+                let botonAgregar = document.querySelector(`[data-id="${prodSelect.codigo}"]`)
+                botonAgregar.disabled = false
+                botonAgregar.classList.add('boton-agregar')
+                botonAgregar.classList.remove('boton-agregar-desactivado')
+            }
+            console.log(cantidadProds)
 
+            
         })
     })
 
@@ -227,8 +240,8 @@ async function main() {
             </div>
             <img src=${item.img}>
             <div class="boton-container d-flex">
-                <button class="boton-agregar" data-id="${item.codigo}"> + </button>
-                <button class="boton-quitar" data-id="${item.codigo}" disabled> - </button>
+                <button id="${item.codigo}" class="boton-agregar" data-id="${item.codigo}"> + </button>
+                <button id="${item.codigo}" class="boton-quitar" data-id="${item.codigo}" disabled> - </button>
                 <div class="boton-precio d-flex">
                     <p>$${item.precio}</p>
                 </div>
