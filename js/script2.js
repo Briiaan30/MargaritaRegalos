@@ -52,10 +52,10 @@ let productos = [
 ]
 */
 
-let arrayProd = []
+let arrayDeProds = []
 let carrito = []
 let carritoResumen
-let cantidadProds = []
+let arrayDeProdsCantidad = []
 
 async function productosJSON() {
     try {
@@ -64,160 +64,154 @@ async function productosJSON() {
         datosJson = await response.json()
         // console.log('datosJson:', datosJson)
         datosJson.forEach(element => {
-            arrayProd.push(element)
+            arrayDeProds.push(element)
         });
     } catch (error) {
         console.log('Error: ', error)
     }
 }
 
-function resumenCarrito() {
+// function resumenCarrito() {
 
-    let listaProdsJson = JSON.parse(localStorage.getItem("carrito"))
-    console.log(listaProdsJson)
-    let precioTotal = listaProdsJson.map(item => item.precio).reduce((acu, valor) => acu + valor, 0);
-    console.log(precioTotal)
+//     let listaProdsJson = JSON.parse(localStorage.getItem("carrito"))
+//     console.log('listaProdsJson: ', listaProdsJson)
+//     let precioTotal = listaProdsJson.map(item => item.precio).reduce((acu, valor) => acu + valor, 0);
+//     console.log('precioTotal: ', precioTotal)
 
-    let cadenaTextoProds = ''
-    listaProdsJson.forEach(prod => {
-        cadenaTextoProds += `${prod.nombre} - Cantidad: ${prod.cantidad} \n <br>`
-    })
+//     let cadenaTextoProds = ''
+//     listaProdsJson.forEach(prod => {
+//         cadenaTextoProds += `${prod.nombre} - Cantidad: ${prod.cantidad} \n <br>`
+//     })
 
-    console.log(cadenaTextoProds)
+//     console.log(cadenaTextoProds)
 
+//     Swal.fire({
+//         title: "Carrito de compras",
+//         html: `
+//         Verificar antes de continuar con la compra <br>
+//         ${cadenaTextoProds}
+//         <br>
+//         Total: $${precioTotal}`,
+//         showCloseButton: true,
+//         showCancelButton: true,
+//         focusConfirm: false,
+//         confirmButtonText: `Confirmar`,
+//         confirmButtonColor: "#3085d6",
+//         cancelButtonColor: "#d33",
+//         cancelButtonText: "Cancelar"
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             Swal.fire({
+//                 title: "¡Compra realizada con exito!",
+//                 text: "En los proximos dias te estaremos contactando para organizar la entrega",
+//                 icon: "success"
+//             });
+//         }
+//     });
+// }
 
-
-
-    Swal.fire({
-        title: "Carrito de compras",
-        html: `
-        Verificar antes de continuar con la compra <br>
-        ${cadenaTextoProds}
-        <br>
-        Total: $${precioTotal}`,
-        showCloseButton: true,
-        showCancelButton: true,
-        focusConfirm: false,
-        confirmButtonText: `Confirmar`,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        cancelButtonText: "Cancelar"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire({
-                title: "¡Compra realizada con exito!",
-                text: "En los proximos dias te estaremos contactando para organizar la entrega",
-                icon: "success"
-            });
-        }
-    });
+async function itemAgregado(prodSelect) {
+    const productoEnCarrito = carrito.find(item => item.codigo === prodSelect.codigo);
+    if (productoEnCarrito) {
+        productoEnCarrito.cantidad++;
+    } else {
+        carrito.push({ cantidad: 1, ...prodSelect });
+    }
+    console.log('itemAgregado carrito:',carrito)
 }
 
-async function contarProdCarrito(carrito) {
-    let resumen = {}
-    carrito.forEach((item) => {
-        if (resumen[item.codigo]) {
-            resumen[item.codigo].cantidad++;
-        } else {
-            resumen[item.codigo] = { cantidad: 1, ...item }
-        }
-    });
-    return Object.values(resumen)
-}
 
-async function actualizarBotonQuitar() {
-    const botonQuitar = document.querySelectorAll('.boton-quitar')
-    botonQuitar.forEach(async boton => {
-        const idProd = parseInt(boton.getAttribute('data-id'))
-        const prodEnCarrito = cantidadProds.find(prod => prod.codigo === idProd)
+async function actualizarBotones(prodSelect) {
 
-        if (prodEnCarrito && prodEnCarrito.cantidad > 0) {
-            boton.disabled = false
-        } else {
-            boton.disabled = true
-        }
-    })
+    const botonAgregar = document.getElementById(`${prodSelect.codigo}`)
+    if (prodSelect.stock > 0){
+        botonAgregar.disabled = false
+    } else {
+        botonAgregar.disabled = true
+    }
+
+    const botonQuitar = document.getElementById(`${prodSelect.codigo + 6}`);
+    const productoEnCarrito = carrito.find(item => item.codigo === prodSelect.codigo)
+    if (productoEnCarrito && productoEnCarrito.cantidad > 0){
+        botonQuitar.disabled = false
+    } else {
+        botonQuitar.disabled = true
+    }
 }
 
 async function agregarCarrito() {
+    try {
+        let botonAgregar = document.querySelectorAll('.boton-agregar')
+        await botonAgregar.forEach(boton => {
+            boton.addEventListener('click', async () => {
+                const idProd = parseInt(boton.getAttribute('data-id'));
+                const prodSelect = arrayDeProds.find(item => item.codigo === idProd)
+                // console.log('Producto seleccionado: ',prodSelect)
 
-    let botonAgregar = document.querySelectorAll('.boton-agregar')
-    await botonAgregar.forEach(boton => {
-        boton.addEventListener('click', async () => {
-            const idProd = parseInt(boton.getAttribute('data-id'));
-            const prodSelect = arrayProd.find(item => item.codigo === idProd)
+                if (prodSelect && prodSelect.stock > 0) {
+                    await itemAgregado(prodSelect)
+                    prodSelect.stock -= 1
 
-            if (prodSelect && prodSelect.stock > 0) {
-                await carrito.push(prodSelect)
-                prodSelect.stock -= 1
+                    Toastify({
+                        text: "¡Producto agregado!",
+                        duration: 2000,
+                        gravity: "bottom",
+                        position: "right",
+                        stopOnFocus: true,
+                        style: {
+                            color: 'black',
+                            background: "linear-gradient(90deg, rgba(255,199,41,1) 18%, rgba(255,248,0,1) 76%)",
+                        },
+                        className: "claseToastify",
+                        onClick: function () { }
+                    }).showToast();
+                }
+                await actualizarBotones(prodSelect)
 
-                Toastify({
-                    text: "¡Producto agregado!",
-                    duration: 2000,
-                    gravity: "bottom",
-                    position: "right",
-                    stopOnFocus: true,
-                    style: {
-                        color: 'black',
-                        background: "linear-gradient(90deg, rgba(255,199,41,1) 18%, rgba(255,248,0,1) 76%)",
-                    },
-                    className: "claseToastify",
-                    onClick: function () { }
-                }).showToast();
+                /* Swal.fire({
+                    title: "<strong>Lo siento.<br>Esto se va a quitar</strong>",
+                    icon: "warning",
+                    html: `Elige otro producto.<br> ! Pronto tendremos mas ¡`,
+                    showCloseButton: true,
+                    focusConfirm: false,
+                    confirmButtonText: `Aceptar`,
+                }); */
 
-                cantidadProds = await contarProdCarrito(carrito)
-                console.log('Array de objetos: ', cantidadProds)
-                await actualizarBotonQuitar()
-            }
-
-            if (prodSelect.stock == 0) {
-                boton.disabled = true
-                boton.classList.add('boton-agregar-desactivado')
-                boton.classList.remove('boton-agregar')
-            }
-            // Swal.fire({
-            //     title: "<strong>Lo siento.<br>Esto se va a quitar</strong>",
-            //     icon: "warning",
-            //     html: `Elige otro producto.<br> ! Pronto tendremos mas ¡`,
-            //     showCloseButton: true,
-            //     focusConfirm: false,
-            //     confirmButtonText: `Aceptar`,
-            // });
-
-            //console.log('Carrito: ', carrito)
-
-            // let stringifyProds = JSON.stringify(cantidadProds)
-            //console.log(stringifyProds)
-            // console.log('Convertido: ', stringifyProds)
-            // localStorage.setItem("carrito", stringifyProds)
+                // let stringifyProds = JSON.stringify(arrayDeProdsCantidad)
+                //console.log(stringifyProds)
+                // console.log('Convertido: ', stringifyProds)
+                // localStorage.setItem("carrito", stringifyProds)
+            })
         })
-    });
+    } catch (err) {
+        console.log('Error al agregar producto: ', err)
+    };
 };
 
 async function quitarCarrito() {
     let botonQuitar = document.querySelectorAll('.boton-quitar');
+    // console.log('botonQuitar',botonQuitar)
     await botonQuitar.forEach(boton => {
-        boton.addEventListener('click', () => {
-            const idProd = parseInt(boton.getAttribute('data-id'))
-            const prodSelect = cantidadProds.find(item => item.codigo === idProd)
-            // console.log(prodSelect)
-            if(prodSelect && prodSelect.cantidad > 0){
-                prodSelect.cantidad--
-                // console.log(prodSelect)
-                if(prodSelect.cantidad == 0){
-                    cantidadProds = cantidadProds.filter(elem => elem.codigo != prodSelect.codigo)
-                }
-            }
-            if(prodSelect.cantidad == 0){
-                boton.disabled = true
-                let botonAgregar = document.querySelector(`[data-id="${prodSelect.codigo}"]`)
-                botonAgregar.disabled = false
-                botonAgregar.classList.add('boton-agregar')
-                botonAgregar.classList.remove('boton-agregar-desactivado')
-            }
-            console.log(cantidadProds)
+        boton.addEventListener('click', async  () => {
+            const idProdBoton = parseInt(boton.getAttribute('data-id'))
+            const productoEnCarrito = carrito.find(item => item.codigo === idProdBoton)
+            // console.log('productoEnCarrito boton quitar: ',productoEnCarrito)
+            if (productoEnCarrito && productoEnCarrito.cantidad > 0){
+                productoEnCarrito.cantidad--
+                console.log('productoEnCarrito stock -1: ',productoEnCarrito)
 
-            
+                if(productoEnCarrito.cantidad === 0){
+                    carrito = carrito.filter(item => item.codigo !==productoEnCarrito.codigo)
+                    console.log('quitarCarrito: ', carrito)
+                }
+                
+                // arrayDeProds[productoEnCarrito.codigo].stock++
+                const itemDeArrayDeProds = arrayDeProds.find(elem => elem.codigo == productoEnCarrito.codigo)
+                itemDeArrayDeProds.stock++
+                
+                await actualizarBotones(productoEnCarrito)
+            }
+
         })
     })
 
@@ -226,10 +220,11 @@ async function quitarCarrito() {
 async function main() {
 
     await productosJSON()
-    // console.log('arrayProd: ',arrayProd)
+
+    // console.log('arrayDeProds: ',arrayDeProds)
     let sectionCards = document.getElementById('sectionCards')
 
-    arrayProd.forEach(item => {
+    arrayDeProds.forEach(item => {
         // console.log(item)
         sectionCards.innerHTML += `<div class="pt-2 pb-2">
     <div class="container cards-container">
@@ -241,7 +236,7 @@ async function main() {
             <img src=${item.img}>
             <div class="boton-container d-flex">
                 <button id="${item.codigo}" class="boton-agregar" data-id="${item.codigo}"> + </button>
-                <button id="${item.codigo}" class="boton-quitar" data-id="${item.codigo}" disabled> - </button>
+                <button id="${item.codigo + 6}" class="boton-quitar" data-id="${item.codigo}" disabled> - </button>
                 <div class="boton-precio d-flex">
                     <p>$${item.precio}</p>
                 </div>
@@ -280,5 +275,4 @@ async function main() {
         resumenCarrito()
     })
 }
-
 main()

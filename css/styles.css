@@ -8,11 +8,11 @@
     /* border: 1px rgb(168, 0, 0) solid; */
 }
 
-body{
+body {
     font-family: 'Poppins', sans-serif !important;
 }
 
-header{
+header {
     position: fixed;
     left: 0;
     color: #fff;
@@ -25,19 +25,19 @@ header{
     background-color: rgb(253, 218, 175) !important;
 }
 
-.bg-yellow-custom{
+.bg-yellow-custom {
     background-color: rgba(255, 225, 33, 0.8);
 }
 
-.cards-container{
-    display:flex;
+.cards-container {
+    display: flex;
     justify-content: space-around;
     width: 60%;
     height: 80%;
-    
+
 }
 
-.cards-item{
+.cards-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,7 +48,7 @@ header{
     height: 34.5rem;
 }
 
-.card-descripcion{
+.card-descripcion {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -57,7 +57,8 @@ header{
     height: 7rem;
 }
 
-.card-descripcion h2, .card-descripcion p {
+.card-descripcion h2,
+.card-descripcion p {
     margin: 5px;
     text-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -69,13 +70,13 @@ header{
 
 .card-descripcion p {
     font-size: 12pt;
-    width:calc(100% - 20px);
+    width: calc(100% - 20px);
     line-height: 18px;
 }
 
-.cards-item img{
+.cards-item img {
     border-radius: 15px;
-    filter:drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.5));
     margin: 10px;
     width: 15rem;
     height: 21rem;
@@ -83,14 +84,15 @@ header{
     z-index: -1;
 }
 
-.boton-container{
+.boton-container {
     justify-content: space-between;
     align-self: center;
     width: 220px;
     margin-top: 10px;
 }
 
-.boton-agregar, .boton-agregar-desactivado{
+.boton-agregar,
+.boton-agregar-desactivado {
     background-color: rgb(255, 235, 168);
     align-self: center;
     border: 0px;
@@ -104,17 +106,18 @@ header{
     margin: 0 5px;
 }
 
-.boton-agregar:hover, .boton-quitar:hover{
+.boton-agregar:hover,
+.boton-quitar:hover {
     background-color: rgb(206, 180, 94);
     transform: scale(1.08);
     transition: transform 0.2s ease-in-out;
 }
 
-.boton-agregar:active{
+.boton-agregar:active {
     background-color: rgb(255, 237, 176);
 }
 
-.boton-quitar, .boton-quitar-desactivado{
+.boton-quitar, .boton-quitar-desactivado {
     background-color: rgb(243, 138, 89);
     align-self: center;
     border: 0px;
@@ -128,17 +131,17 @@ header{
     margin: 0 5px;
 }
 
-.boton-quitar:hover{
+.boton-quitar:hover {
     background-color: rgb(247, 167, 167);
 }
 
-.boton-agregar-desactivado:hover{
+.boton-agregar-desactivado:hover {
     background-color: none !important;
     transform: none;
     transition: none;
 }
 
-.boton-precio{
+.boton-precio {
     justify-content: space-evenly;
     align-self: center;
     font-weight: bold;
@@ -155,16 +158,16 @@ header{
     padding-right: 8px;
 }
 
-.boton-confirmar-compra{
+.boton-confirmar-compra {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin:auto;
+    margin: auto;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.boton-carrito{
+.boton-carrito {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -175,15 +178,15 @@ header{
     height: 10vh;
 }
 
-.boton-carrito:hover{
-    background-color: rgba(206, 180, 94, 0.137) ;
+.boton-carrito:hover {
+    background-color: rgba(206, 180, 94, 0.137);
 }
 
-.boton-carrito:active{
+.boton-carrito:active {
     opacity: 60%;
 }
 
-.boton-carrito img{
+.boton-carrito img {
     scale: 1.3;
     margin: 10px;
 }
@@ -192,19 +195,22 @@ header{
     font-size: 16pt;
     font-weight: bold;
     width: 50%;
-    margin:10px;
+    margin: 10px;
     transition: transform 0.2s ease-in-out;
 }
 
-.boton-carrito div:hover{
+.boton-carrito div:hover {
     transform: scale(1.1);
     transition: transform 0.2s ease-in-out;
 }
 
 .claseToastify {
-    font-size: 14pt; /* Cambia este valor al tamaño que desees */
-    font-weight: bold; /* Opcional: puedes hacer el texto más grueso */
-    border-radius: 10px !important; /* Redondea las esquinas */
+    font-size: 14pt;
+    /* Cambia este valor al tamaño que desees */
+    font-weight: bold;
+    /* Opcional: puedes hacer el texto más grueso */
+    border-radius: 10px !important;
+    /* Redondea las esquinas */
     /* box-shadow: 0px 0px 4px #000000; */
     filter: drop-shadow(0px 0px 7px rgba(114, 114, 114, 0.788));
 }
@@ -217,4 +223,3 @@ footer {
     text-align: center;
     width: 100%;
 }
-
