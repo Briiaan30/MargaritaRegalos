@@ -163,7 +163,7 @@ async function agregarCarrito() {
                     await itemAgregado(prodSelect)
                     prodSelect.stock -= 1
                     Toastify({
-                        text: "¡Producto agregado!",
+                        text: "¡Producto agregado! ✅",
                         duration: 2000,
                         gravity: "bottom",
                         position: "right",
@@ -192,6 +192,21 @@ async function quitarCarrito() {
             const productoEnCarrito = carrito.find(item => item.codigo === idProdBoton)
             if (productoEnCarrito && productoEnCarrito.cantidad > 0) {
                 productoEnCarrito.cantidad--
+
+                Toastify({
+                    text: "Producto eliminado ❌",
+                    duration: 2000,
+                    gravity: "bottom",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        color: 'black',
+                        background: "linear-gradient(90deg, rgba(255,145,41,1) 18%, rgba(236,166,0,1) 76%)",
+                    },
+                    className: "claseToastify",
+                    onClick: function () { }
+                }).showToast();
+
                 if (productoEnCarrito.cantidad === 0) {
                     carrito = carrito.filter(item => item.codigo !== productoEnCarrito.codigo)
                 }
