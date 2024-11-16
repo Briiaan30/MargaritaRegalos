@@ -91,8 +91,7 @@ header {
     margin-top: 10px;
 }
 
-.boton-agregar,
-.boton-agregar-desactivado {
+.boton-agregar, .boton-agregar-desactivado {
     background-color: rgb(255, 235, 168);
     align-self: center;
     border: 0px;
@@ -106,8 +105,13 @@ header {
     margin: 0 5px;
 }
 
-.boton-agregar:hover,
-.boton-quitar:hover {
+.boton-agregar-desactivado:hover {
+    background-color: none !important;
+    transform: none;
+    transition: none;
+}
+
+.boton-agregar:hover, .boton-quitar:hover {
     background-color: rgb(206, 180, 94);
     transform: scale(1.08);
     transition: transform 0.2s ease-in-out;
@@ -135,11 +139,10 @@ header {
     background-color: rgb(247, 167, 167);
 }
 
-.boton-agregar-desactivado:hover {
-    background-color: none !important;
-    transform: none;
-    transition: none;
+.boton-quitar:active{
+    background-color: rgb(250, 129, 129);
 }
+
 
 .boton-precio {
     justify-content: space-evenly;
